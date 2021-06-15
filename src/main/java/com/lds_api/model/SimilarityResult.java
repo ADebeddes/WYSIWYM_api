@@ -1,35 +1,55 @@
 package com.lds_api.model;
 
+/**
+ * 
+ * @author Alexandre DEBEDDES
+ * 
+ */
+import java.util.ArrayList;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class SimilarityResult {
-	private String id1;
+	private String status;
 	
-	private String id2;
+	private int code;
 	
-	private double result;
+	@JsonProperty(value = "data", required = true)
+	private ArrayList<Result> data;
+	
+	private String message;
 	
 	public SimilarityResult() {}
 	
-	public void setId1(String id) {
-		id1=id;
+	public void setStatus(String status) {
+		this.status=status;
 	}
 	
-	public void setId2(String id) {
-		id2=id;
+	public void setCode(int code) {
+		this.code=code;
 	}
 	
-	public void setResult(double r) {
-		result=r;
+	public void setData(ArrayList<Result> data) {
+		this.data=data;
 	}
 	
-	public String getId1() {
-		return id1;
+	public void setMessage(String message) {
+		this.message=message;
 	}
 	
-	public String getId2() {
-		return id2;
+	public String getStatus() {
+		return status;
 	}
 	
-	public double getResult() {
-		return result;
+	public int getCode() {
+		return code;
 	}
+	
+	public ArrayList<Result> setData() {
+		return data;
+	}
+	
+	public String setMessage() {
+		return message;
+	}
+	
 }
