@@ -23,10 +23,12 @@ public class LDSController {
 	
 	@PostMapping(value = "/similarity", consumes = "application/json", produces = "application/json")
 	@ResponseBody
-	public SimilarityResult simpleSimilarity(@RequestBody SimilarityParameters params) {
+	public SimilarityResult simpleSimilarity(@RequestBody SimilarityParameters params) throws Exception {
 		SimilarityResult res = new SimilarityResult();
-		res = LDSService.Similarity(params);
-		
+		res = LDSService.LDSimilarity(params);
+		/*if(res == null) {
+	         throw new RecordNotFoundException("Invalid employee id : " + id);
+	    }*/
 		/*res.setStatus("success");
 		ArrayList<Result> data = new ArrayList<Result>();
 		Result r =new Result();
