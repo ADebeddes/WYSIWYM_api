@@ -77,7 +77,8 @@ public class LdBenchmark {
         
         List<String> list = readResultsFromFile(resultsFile);
         List<String> benchMark = readResultsFromBenchmark(sourceFile);
-
+        System.out.println("list : "+list.size());
+        System.out.println("benchMark : "+benchMark.size());
         return Correlation.getCorrelation(list , benchMark , correlation);
 
     }
