@@ -10,6 +10,7 @@ public class Options {
 	private int threads;
 	private boolean useIndex;
 	private String measureType;
+	//private String correlation;
 	
 	public Options() {}
 
@@ -44,11 +45,19 @@ public class Options {
 	public void setMeasureType(String measureType) {
 		this.measureType = measureType;
 	}
+	
+	/*public String getCorrelation() {
+		return correlation;
+	}
+
+	public void setCorrelation(String correlation) {
+		this.correlation = correlation;
+	}*/
 
 	@Override
 	public String toString() {
 		return "Options [benchmark=" + benchmark + ", threads=" + threads + ", useIndex=" + useIndex + ", measureType="
-				+ measureType + "]";
+				+ measureType /*+ ", correlation=" + correlation*/ + "]";
 	}
 	
 	

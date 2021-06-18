@@ -3,6 +3,7 @@ package lds.benchmark;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -76,7 +77,8 @@ public class LdBenchmark {
         
         List<String> list = readResultsFromFile(resultsFile);
         List<String> benchMark = readResultsFromBenchmark(sourceFile);
-
+        System.out.println("list : "+list.size());
+        System.out.println("benchMark : "+benchMark.size());
         return Correlation.getCorrelation(list , benchMark , correlation);
 
     }
@@ -125,7 +127,6 @@ public class LdBenchmark {
 //        double maxValue = file.getMaxValue();
                 
         BufferedReader reader = Files.newBufferedReader(Paths.get(filePath));
-
         Iterable<CSVRecord> records = CSVFormat.DEFAULT.withDelimiter(file.getSeparator())
                                                        .withQuote(file.getQuote())
                                                        .withRecordSeparator("\r\n")
@@ -139,12 +140,14 @@ public class LdBenchmark {
 //                result = Double.toString(normalizeValue(Double.parseDouble(c3) , minValue , maxValue));
 //                results.add(result);
                 result = c3.trim();
+                results.add(result);
+                System.out.println("result : "+result);
             }
             catch(Exception e){
                 System.out.println("Exception " + e.toString() + " at line " + i + " while reading benchmark file \"" + file.getFilePath() + "\"");
             }
         }
-        
+        System.out.println(results);
         return results;    
     }
     
@@ -460,11 +463,19 @@ public class LdBenchmark {
          String filePath = sourceFile.getFilePath();
         BufferedReader reader = Files.newBufferedReader(Paths.get(filePath));
 
+        /*FileReader fr=new FileReader(sourceFile.getFilePath());    
+		int i;    
+		while((i=fr.read())!=-1)    
+			System.out.print((char)i);    
+		fr.close();*/
         Iterable<CSVRecord> records = CSVFormat.DEFAULT.withDelimiter(sourceFile.getSeparator())
                                                        .withQuote(sourceFile.getQuote())
                                                        .withRecordSeparator("\r\n")
-                                                       .parse(reader);        
+                                                       .parse(reader); 
+        /*while(records.iterator().hasNext())
+        	System.out.println(records.iterator().next());*/
         CSVRecord record = records.iterator().next();
+        //System.out.println(record.size());
             return record.size();
                 
        

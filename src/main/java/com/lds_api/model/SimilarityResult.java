@@ -6,12 +6,15 @@ package com.lds_api.model;
  * 
  */
 import java.util.ArrayList;
+
+import org.springframework.http.HttpStatus;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class SimilarityResult {
 	private String status;
 	
-	private int code;
+	private HttpStatus code;
 	
 	@JsonProperty(value = "data", required = true)
 	private ArrayList<Result> data;
@@ -20,11 +23,17 @@ public class SimilarityResult {
 	
 	public SimilarityResult() {}
 	
+	public SimilarityResult(HttpStatus code,String message) {
+		this.code=code;
+		this.data=null;
+		this.message=message;
+	}
+	
 	public void setStatus(String status) {
 		this.status=status;
 	}
 	
-	public void setCode(int code) {
+	public void setCode(HttpStatus code) {
 		this.code=code;
 	}
 	
@@ -40,15 +49,15 @@ public class SimilarityResult {
 		return status;
 	}
 	
-	public int getCode() {
+	public HttpStatus getCode() {
 		return code;
 	}
 	
-	public ArrayList<Result> setData() {
+	public ArrayList<Result> getData() {
 		return data;
 	}
 	
-	public String setMessage() {
+	public String getMessage() {
 		return message;
 	}
 	
