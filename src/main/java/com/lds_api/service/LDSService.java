@@ -167,6 +167,22 @@ public class LDSService {
 
 					data.add(res);
 				}
+	        }
+		}
+		else {
+			if(params.getOptions().isBenchmark()) {
+				FileWriter csvWriter = new FileWriter("bench.csv");
+				for(Resources r: params.getResources()) {
+					csvWriter.append(r.getResource1());
+					csvWriter.append(",");
+					csvWriter.append(r.getResource2());
+					csvWriter.append(",");
+					csvWriter.append(String.valueOf(r.getBenchmark()));
+					csvWriter.append("\n");
+
+				}
+				csvWriter.flush();
+				csvWriter.close();
 			}
 			engine.close();
 		simRes.setData(data);
