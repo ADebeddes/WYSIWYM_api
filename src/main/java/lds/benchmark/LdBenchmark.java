@@ -3,6 +3,7 @@ package lds.benchmark;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -125,7 +126,6 @@ public class LdBenchmark {
 //        double maxValue = file.getMaxValue();
                 
         BufferedReader reader = Files.newBufferedReader(Paths.get(filePath));
-
         Iterable<CSVRecord> records = CSVFormat.DEFAULT.withDelimiter(file.getSeparator())
                                                        .withQuote(file.getQuote())
                                                        .withRecordSeparator("\r\n")
@@ -139,12 +139,12 @@ public class LdBenchmark {
 //                result = Double.toString(normalizeValue(Double.parseDouble(c3) , minValue , maxValue));
 //                results.add(result);
                 result = c3.trim();
+                results.add(result);
             }
             catch(Exception e){
                 System.out.println("Exception " + e.toString() + " at line " + i + " while reading benchmark file \"" + file.getFilePath() + "\"");
             }
         }
-        
         return results;    
     }
     
@@ -460,11 +460,14 @@ public class LdBenchmark {
          String filePath = sourceFile.getFilePath();
         BufferedReader reader = Files.newBufferedReader(Paths.get(filePath));
 
+
         Iterable<CSVRecord> records = CSVFormat.DEFAULT.withDelimiter(sourceFile.getSeparator())
                                                        .withQuote(sourceFile.getQuote())
                                                        .withRecordSeparator("\r\n")
-                                                       .parse(reader);        
+                                                       .parse(reader); 
+
         CSVRecord record = records.iterator().next();
+
             return record.size();
                 
        
