@@ -12,6 +12,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.apache.jena.shared.PrefixMapping;
 import org.apache.jena.shared.impl.PrefixMappingImpl;
@@ -58,78 +59,111 @@ public class LDSService {
 		SimilarityResult simRes = new SimilarityResult();
 		ArrayList<Result> data = new ArrayList<Result>();
 		LdSimilarityEngine engine = loadEngine(params.getLdDatasetMain() , params.getOptions());
+		UUID uuid = UUID.randomUUID();
 		if(params.getOptions().isBenchmark()) {
-			FileWriter csvWriter = new FileWriter("bench.csv");
-			CSVWriter writer = new CSVWriter(csvWriter);
-			for(Resources r: params.getResources()) {
-				csvWriter.append(r.getResource1());
-				csvWriter.append(",");
-				csvWriter.append(r.getResource2());
-				csvWriter.append(",");
-				csvWriter.append(String.valueOf(r.getBenchmark()));
-				csvWriter.append("\n");
+			if(params.getOptions().getBenchmarkName().equals("none")) {
+				FileWriter csvWriter = new FileWriter("tmp/"+uuid.toString()+".csv");
+				CSVWriter writer = new CSVWriter(csvWriter);
+				for(Resources r: params.getResources()) {
+					csvWriter.append(r.getResource1());
+					csvWriter.append(",");
+					csvWriter.append(r.getResource2());
+					csvWriter.append(",");
+					csvWriter.append(String.valueOf(r.getBenchmark()));
+					csvWriter.append("\n");
 
-			}
-			csvWriter.flush();
-			writer.close();
+				}
+				csvWriter.flush();
+				writer.close();
 
-			Path benchPath = Paths.get("bench.csv");
-			String benchFile = benchPath.toAbsolutePath().toString();
+				Path benchPath = Paths.get("tmp/"+uuid.toString()+".csv");
+				String benchFile = benchPath.toAbsolutePath().toString();
 
-			BenchmarkFile source = new BenchmarkFile(benchFile , ',' , '"');
+				BenchmarkFile source = new BenchmarkFile(benchFile , ',' , '"');
 
-			LdBenchmark benchmark = new LdBenchmark(source);
+				LdBenchmark benchmark = new LdBenchmark(source);
 
-			benchmark.setCorrelationMethod(Correlation.PearsonCorrelation);
+				if(params.getOptions().getCorrelationType().equals("spearman"))
+					benchmark.setCorrelationMethod(Correlation.SpearmanCorrelation);
+				if(params.getOptions().getCorrelationType().equals("pearson"))
+					benchmark.setCorrelationMethod(Correlation.PearsonCorrelation);
 
-			loadEngine(params.getLdDatasetMain() , params.getOptions());
+				
+				double correlation = engine.correlation(benchmark, params.getOptions().getThreads());
 
 
-			double correlation = engine.correlation(benchmark, params.getOptions().getThreads());
+				Path benchResultPath = Paths.get("tmp/"+uuid.toString()+"_Results.csv");
+				String benchResultFile = benchResultPath.toAbsolutePath().toString();
+				BufferedReader reader = new BufferedReader(new FileReader(benchResultFile));
 
+				String line;
 
-			Path benchResultPath = Paths.get("bench_Results.csv");
-			String benchResultFile = benchResultPath.toAbsolutePath().toString();
-			BufferedReader reader = new BufferedReader(new FileReader(benchResultFile));
+				while ((line = reader.readLine()) != null) {
+					String[] r = line.split(",");
+					Result res = new Result();
+					res.setResource1(r[0]);
+					res.setResource2(r[1]);
+					res.setScore(Double.parseDouble(r[2]));
+					data.add(res);
+				}
+				reader.close();
 
-			String line;
-
-			while ((line = reader.readLine()) != null) {
-				String[] r = line.split(",");
 				Result res = new Result();
-				res.setResource1(r[0]);
-				res.setResource2(r[1]);
-				res.setScore(Double.parseDouble(r[2]));
+				res.setResource1("Correlation");
+				res.setResource2("");
+				res.setScore(correlation);
 				data.add(res);
+
+				csvWriter = new FileWriter("tmp/"+uuid.toString()+"_Results.csv");
+
+				csvWriter.append("Correlation");
+				csvWriter.append(",");
+				csvWriter.append("");
+				csvWriter.append(",");
+				csvWriter.append(String.valueOf(correlation));
+				csvWriter.append(",\n");
+
+				csvWriter.flush();
+				csvWriter.close();
+
+				File file = new File(benchResultFile);
+				file.delete();
+
+				Path benchResultDurationPath = Paths.get("tmp/"+uuid.toString()+"_Results_Duration.csv");
+				String benchResultDurationFile = benchResultDurationPath.toAbsolutePath().toString();
+
+				File file1 = new File(benchResultDurationFile);
+				file1.delete();
+
+				File file2 = new File(benchFile);
+				file2.delete();
 			}
-			reader.close();
+			else {
+				Path benchPath = Paths.get("");
+				String benchFile = "";
+				switch(params.getOptions().getBenchmarkName()) {
+				case "mc30":
+					benchFile = benchPath.toAbsolutePath().toString()+"\\src\\test\\resources\\benchmarks\\mc-30\\mc-30_DBpedia.csv";
+					break;
+				case "rg65":
+					benchFile = benchPath.toAbsolutePath().toString()+"\\src\\test\\resources\\benchmarks\\rg-65\\rg-65.csv";
+					break;
+				case "wordsim353":
+					benchFile = benchPath.toAbsolutePath().toString()+"\\src\\test\\resources\\benchmarks\\wordsim-353\\wordsim-353.csv";
+					break;
+				}
 
-			Result res = new Result();
-			res.setResource1("Correlation");
-			res.setResource2("");
-			res.setScore(correlation);
-			data.add(res);
+				BenchmarkFile source = new BenchmarkFile(benchFile , ',' , '"');
 
-			csvWriter = new FileWriter("bench_Results.csv");
-
-			csvWriter.append("Correlation");
-			csvWriter.append(",");
-			csvWriter.append("");
-			csvWriter.append(",");
-			csvWriter.append(String.valueOf(correlation));
-			csvWriter.append(",\n");
-
-			csvWriter.flush();
-			csvWriter.close();
-
-			File file = new File(benchResultFile);
-			file.delete();
-
-			Path benchResultDurationPath = Paths.get("bench_Results_Duration.csv");
-			String benchResultDurationFile = benchResultDurationPath.toAbsolutePath().toString();
-
-			File file1 = new File(benchResultDurationFile);
-			file1.delete();
+				LdBenchmark benchmark = new LdBenchmark(source);
+				
+				if(params.getOptions().getCorrelationType().equals("spearman"))
+					benchmark.setCorrelationMethod(Correlation.SpearmanCorrelation);
+				if(params.getOptions().getCorrelationType().equals("pearson"))
+					benchmark.setCorrelationMethod(Correlation.PearsonCorrelation);
+				
+				double correlation = engine.correlation(benchmark, params.getOptions().getThreads());
+			}
 		}
 		else {
 

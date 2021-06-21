@@ -7,10 +7,11 @@ package com.lds_api.model;
  */
 public class Options {
 	private boolean benchmark;
+	private String benchmarkName;
+	private String correlationType;
 	private int threads;
 	private boolean useIndex;
 	private String measureType;
-	//private String correlation;
 	
 	public Options() {}
 
@@ -22,6 +23,14 @@ public class Options {
 		this.benchmark = benchmark;
 	}
 
+	public String getBenchmarkName() {
+		return benchmarkName;
+	}
+
+	public void setBenchmarkName(String benchmarkName) {
+		this.benchmarkName = benchmarkName;
+	}
+	
 	public int getThreads() {
 		return threads;
 	}
@@ -46,13 +55,13 @@ public class Options {
 		this.measureType = measureType;
 	}
 	
-	/*public String getCorrelation() {
-		return correlation;
+	public String getCorrelationType() {
+		return correlationType;
 	}
 
-	public void setCorrelation(String correlation) {
-		this.correlation = correlation;
-	}*/
+	public void setCorrelationType(String correlationType) {
+		this.correlationType = correlationType;
+	}
 
 	@Override
 	public String toString() {
