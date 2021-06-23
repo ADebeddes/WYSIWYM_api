@@ -29,6 +29,7 @@ public class LDSController {
 	@PostMapping(value = "/similarity", consumes = "application/json", produces = "application/json")
 	@ResponseBody
 	public SimilarityResult similarity(@RequestBody SimilarityParameters params) throws Exception{
+		System.out.println("Bonjour je suis le début du test");
 		SimilarityResult res = new SimilarityResult();
 		res = LDSService.LDSimilarity(params);
 		try {
@@ -53,4 +54,9 @@ public class LDSController {
 		return res;
 	}
 	
+	public void afficheParams(SimilarityParameters params) {
+		System.out.println(params.getLdDatasetMain().toString());
+		System.out.println(params.getOptions().toString());
+		System.out.println(params.getResources());
+	}
 }
