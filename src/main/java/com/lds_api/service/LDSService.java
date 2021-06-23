@@ -124,13 +124,13 @@ public class LDSService {
 				String benchStringPath = "";
 				switch(params.getOptions().getBenchmarkName()) {
 				case "mc30":
-					benchStringPath = benchPath.toAbsolutePath().toString()+"\\src\\test\\resources\\benchmarks\\mc-30\\mc-30_DBpedia.csv";
+					benchStringPath = benchPath.toAbsolutePath().toString()+"/src/test/resources/benchmarks/mc-30/mc-30_DBpedia.csv";
 					break;
 				case "rg65":
-					benchStringPath = benchPath.toAbsolutePath().toString()+"\\src\\test\\resources\\benchmarks\\rg-65\\rg-65_DBpedia.csv";
+					benchStringPath = benchPath.toAbsolutePath().toString()+"/src/test/resources/benchmarks/rg-65/rg-65_DBpedia.csv";
 					break;
 				case "wordsim353":
-					benchStringPath = benchPath.toAbsolutePath().toString()+"\\src\\test\\resources\\benchmarks\\wordsim-353\\wordsim-353_DBpedia.txt";
+					benchStringPath = benchPath.toAbsolutePath().toString()+"/src/test/resources/benchmarks/wordsim-353/wordsim-353_DBpedia.txt";
 					break;
 				}
 
@@ -149,13 +149,13 @@ public class LDSService {
 				String benchResultStringPath = "";
 				switch(params.getOptions().getBenchmarkName()) {
 				case "mc30":
-					benchResultStringPath = benchResultPath.toAbsolutePath().toString()+"\\src\\test\\resources\\benchmarks\\mc-30\\mc-30_DBpedia_Results.csv";
+					benchResultStringPath = benchResultPath.toAbsolutePath().toString()+"/src/test/resources/benchmarks/mc-30/mc-30_DBpedia_Results.csv";
 					break;
 				case "rg65":
-					benchResultStringPath = benchResultPath.toAbsolutePath().toString()+"\\src\\test\\resources\\benchmarks\\rg-65\\rg-65_DBpedia_Results.csv";
+					benchResultStringPath = benchResultPath.toAbsolutePath().toString()+"/src/test/resources/benchmarks/rg-65/rg-65_DBpedia_Results.csv";
 					break;
 				case "wordsim353":
-					benchResultStringPath = benchResultPath.toAbsolutePath().toString()+"\\src\\test\\resources\\benchmarks\\wordsim-353\\wordsim-353_DBpedia_Results.txt";
+					benchResultStringPath = benchResultPath.toAbsolutePath().toString()+"/src/test/resources/benchmarks/wordsim-353/wordsim-353_DBpedia_Results.txt";
 					break;
 				}
 				
@@ -183,13 +183,13 @@ public class LDSService {
 				String benchResultDurationStringPath = "";
 				switch(params.getOptions().getBenchmarkName()) {
 				case "mc30":
-					benchResultDurationStringPath = benchResultDurationPath.toAbsolutePath().toString()+"\\src\\test\\resources\\benchmarks\\mc-30\\mc-30_DBpedia_Results_Duration.csv";
+					benchResultDurationStringPath = benchResultDurationPath.toAbsolutePath().toString()+"/src/test/resources/benchmarks/mc-30/mc-30_DBpedia_Results_Duration.csv";
 					break;
 				case "rg65":
-					benchResultDurationStringPath = benchResultDurationPath.toAbsolutePath().toString()+"\\src\\test\\resources\\benchmarks\\rg-65\\rg-65_DBpedia_Results_Duration.csv";
+					benchResultDurationStringPath = benchResultDurationPath.toAbsolutePath().toString()+"/src/test/resources/benchmarks/rg-65/rg-65_DBpedia_Results_Duration.csv";
 					break;
 				case "wordsim353":
-					benchResultDurationStringPath = benchResultDurationPath.toAbsolutePath().toString()+"\\src\\test\\resources\\benchmarks\\wordsim-353\\wordsim-353_DBpedia_Results_Duration.txt";
+					benchResultDurationStringPath = benchResultDurationPath.toAbsolutePath().toString()+"/src/test/resources/benchmarks/wordsim-353/wordsim-353_DBpedia_Results_Duration.txt";
 					break;
 				}
 				
