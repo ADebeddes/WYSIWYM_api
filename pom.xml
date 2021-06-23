@@ -66,8 +66,9 @@
 			<artifactId>ldq</artifactId>
 			<version>0.0.1</version>
 			<scope>system</scope>
-			<systemPath>C:\Users\debed\Documents\workspace-spring-tool-suite-4-4.10.0.RELEASE\lds_api\lib\ldq-0.0.1.jar</systemPath>
+			<systemPath>${project.basedir}\lib\ldq-0.0.1.jar</systemPath>
 		</dependency>
+		
 		<dependency>
 			<groupId>com.github.sharispe</groupId>
 			<artifactId>slib-sml</artifactId>

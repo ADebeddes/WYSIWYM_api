@@ -1,25 +1,19 @@
 package com.lds_api.controller;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.lds_api.model.SimilarityParameters;
 import com.lds_api.model.SimilarityResult;
 import com.lds_api.service.LDSService;
 
 import lds.measures.Measure;
-
-import com.lds_api.model.SimilarityParameters;
 
 @RestController
 /***
@@ -50,9 +44,8 @@ public class LDSController {
 		return res;
 	}
 	
-	@PostMapping(value = "/measures", consumes = "application/json", produces = "application/json")
-	@ResponseBody
-	public ArrayList<String> getMeasures(@RequestBody SimilarityParameters params) throws Exception{
+	@PostMapping(value = "/measures",produces ="application/json")
+	public ArrayList<String> getMeasures() throws Exception{
 		ArrayList<String> res = new ArrayList<String>();
 		for (Measure measure : Measure.values()) {
 		    res.add(measure.toString());

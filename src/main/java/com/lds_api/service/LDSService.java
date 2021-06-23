@@ -11,7 +11,6 @@ import java.io.FileWriter;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 import org.apache.jena.shared.PrefixMapping;
@@ -33,15 +32,8 @@ import lds.benchmark.Correlation;
 import lds.benchmark.LdBenchmark;
 import lds.config.Config;
 import lds.config.ConfigParam;
-import lds.config.LdConfigFactory;
 import lds.engine.LdSimilarityEngine;
 import lds.measures.Measure;
-import lds.measures.lods.SimI;
-import lds.measures.lods.ontologies.O;
-import lds.measures.lods.ontologies.O_DBpedia;
-import lds.measures.lods.ontologies.O_DBpedia_de;
-import lds.measures.lods.ontologies.O_DBpedia_fr;
-import lds.measures.lods.ontologies.O_Yago;
 import lds.measures.weight.WeightMethod;
 import lds.resource.R;
 
@@ -77,9 +69,9 @@ public class LDSService {
 				writer.close();
 
 				Path benchPath = Paths.get("tmp/"+uuid.toString()+".csv");
-				String benchFile = benchPath.toAbsolutePath().toString();
+				String benchStringPath = benchPath.toAbsolutePath().toString();
 
-				BenchmarkFile source = new BenchmarkFile(benchFile , ',' , '"');
+				BenchmarkFile source = new BenchmarkFile(benchStringPath , ',' , '"');
 
 				LdBenchmark benchmark = new LdBenchmark(source);
 
@@ -93,8 +85,8 @@ public class LDSService {
 
 
 				Path benchResultPath = Paths.get("tmp/"+uuid.toString()+"_Results.csv");
-				String benchResultFile = benchResultPath.toAbsolutePath().toString();
-				BufferedReader reader = new BufferedReader(new FileReader(benchResultFile));
+				String benchResultStringPath = benchResultPath.toAbsolutePath().toString();
+				BufferedReader reader = new BufferedReader(new FileReader(benchResultStringPath));
 
 				String line;
 
@@ -114,46 +106,35 @@ public class LDSService {
 				res.setScore(correlation);
 				data.add(res);
 
-				csvWriter = new FileWriter("tmp/"+uuid.toString()+"_Results.csv");
-
-				csvWriter.append("Correlation");
-				csvWriter.append(",");
-				csvWriter.append("");
-				csvWriter.append(",");
-				csvWriter.append(String.valueOf(correlation));
-				csvWriter.append(",\n");
-
-				csvWriter.flush();
-				csvWriter.close();
-
-				File file = new File(benchResultFile);
-				file.delete();
-
 				Path benchResultDurationPath = Paths.get("tmp/"+uuid.toString()+"_Results_Duration.csv");
-				String benchResultDurationFile = benchResultDurationPath.toAbsolutePath().toString();
+				String benchResultDurationStringPath = benchResultDurationPath.toAbsolutePath().toString();
 
-				File file1 = new File(benchResultDurationFile);
-				file1.delete();
-
-				File file2 = new File(benchFile);
-				file2.delete();
+				File benchFile = new File(benchStringPath);
+				benchFile.delete();
+				
+				File benchResultFile = new File(benchResultStringPath);
+				benchResultFile.delete();
+				
+				File benchResultDurationFile = new File(benchResultDurationStringPath);
+				benchResultDurationFile.delete();
+				
 			}
 			else {
 				Path benchPath = Paths.get("");
-				String benchFile = "";
+				String benchStringPath = "";
 				switch(params.getOptions().getBenchmarkName()) {
 				case "mc30":
-					benchFile = benchPath.toAbsolutePath().toString()+"\\src\\test\\resources\\benchmarks\\mc-30\\mc-30_DBpedia.csv";
+					benchStringPath = benchPath.toAbsolutePath().toString()+"\\src\\test\\resources\\benchmarks\\mc-30\\mc-30_DBpedia.csv";
 					break;
 				case "rg65":
-					benchFile = benchPath.toAbsolutePath().toString()+"\\src\\test\\resources\\benchmarks\\rg-65\\rg-65.csv";
+					benchStringPath = benchPath.toAbsolutePath().toString()+"\\src\\test\\resources\\benchmarks\\rg-65\\rg-65_DBpedia.csv";
 					break;
 				case "wordsim353":
-					benchFile = benchPath.toAbsolutePath().toString()+"\\src\\test\\resources\\benchmarks\\wordsim-353\\wordsim-353.csv";
+					benchStringPath = benchPath.toAbsolutePath().toString()+"\\src\\test\\resources\\benchmarks\\wordsim-353\\wordsim-353_DBpedia.txt";
 					break;
 				}
 
-				BenchmarkFile source = new BenchmarkFile(benchFile , ',' , '"');
+				BenchmarkFile source = new BenchmarkFile(benchStringPath , ',' , '"');
 
 				LdBenchmark benchmark = new LdBenchmark(source);
 				
@@ -163,6 +144,60 @@ public class LDSService {
 					benchmark.setCorrelationMethod(Correlation.PearsonCorrelation);
 				
 				double correlation = engine.correlation(benchmark, params.getOptions().getThreads());
+				
+				Path benchResultPath = Paths.get("");
+				String benchResultStringPath = "";
+				switch(params.getOptions().getBenchmarkName()) {
+				case "mc30":
+					benchResultStringPath = benchResultPath.toAbsolutePath().toString()+"\\src\\test\\resources\\benchmarks\\mc-30\\mc-30_DBpedia_Results.csv";
+					break;
+				case "rg65":
+					benchResultStringPath = benchResultPath.toAbsolutePath().toString()+"\\src\\test\\resources\\benchmarks\\rg-65\\rg-65_DBpedia_Results.csv";
+					break;
+				case "wordsim353":
+					benchResultStringPath = benchResultPath.toAbsolutePath().toString()+"\\src\\test\\resources\\benchmarks\\wordsim-353\\wordsim-353_DBpedia_Results.txt";
+					break;
+				}
+				
+				BufferedReader reader = new BufferedReader(new FileReader(benchResultStringPath));
+
+				String line;
+
+				while ((line = reader.readLine()) != null) {
+					String[] r = line.split(",");
+					Result res = new Result();
+					res.setResource1(r[0]);
+					res.setResource2(r[1]);
+					res.setScore(Double.parseDouble(r[2]));
+					data.add(res);
+				}
+				reader.close();
+
+				Result res = new Result();
+				res.setResource1("Correlation");
+				res.setResource2("");
+				res.setScore(correlation);
+				data.add(res);
+				
+				Path benchResultDurationPath = Paths.get("");
+				String benchResultDurationStringPath = "";
+				switch(params.getOptions().getBenchmarkName()) {
+				case "mc30":
+					benchResultDurationStringPath = benchResultDurationPath.toAbsolutePath().toString()+"\\src\\test\\resources\\benchmarks\\mc-30\\mc-30_DBpedia_Results_Duration.csv";
+					break;
+				case "rg65":
+					benchResultDurationStringPath = benchResultDurationPath.toAbsolutePath().toString()+"\\src\\test\\resources\\benchmarks\\rg-65\\rg-65_DBpedia_Results_Duration.csv";
+					break;
+				case "wordsim353":
+					benchResultDurationStringPath = benchResultDurationPath.toAbsolutePath().toString()+"\\src\\test\\resources\\benchmarks\\wordsim-353\\wordsim-353_DBpedia_Results_Duration.txt";
+					break;
+				}
+				
+				File benchResultFile = new File(benchResultStringPath);
+				benchResultFile.delete();
+				
+				File benchResultDurationFile = new File(benchResultDurationStringPath);
+				benchResultDurationFile.delete();
 			}
 		}
 		else {
@@ -188,8 +223,7 @@ public class LDSService {
 		simRes.setData(data);
 		return simRes;
 	}
-
-	//public 
+	
 	public LdSimilarityEngine loadEngine(LdDatasetMain LdDatasetMain ,Options options) throws Exception {
 		LdSimilarityEngine engine = new LdSimilarityEngine();
 		Config config = LDSimilarityConfig(LdDatasetMain , options);
