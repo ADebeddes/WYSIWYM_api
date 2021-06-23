@@ -11,6 +11,10 @@ public class SimilarityParameters {
 	
 	private LdDatasetMain ldDatasetMain;
 	private List<Resources> resources;
+	private String uri;
+	private boolean json;
+	private String method;
+	private String headers;
 	private Options options;
 	
 	public SimilarityParameters() {}
@@ -37,6 +41,44 @@ public class SimilarityParameters {
 	
 	public Options getOptions() {
 		return options;
+	}
+
+	public String getUri() {
+		return uri;
+	}
+
+	public void setUri(String uri) {
+		this.uri = uri;
+	}
+
+	public boolean isJson() {
+		return json;
+	}
+
+	public void setJson(boolean json) {
+		this.json = json;
+	}
+
+	public String getMethod() {
+		return method;
+	}
+
+	public void setMethod(String method) {
+		this.method = method;
+	}
+
+	public String getHeaders() {
+		return headers;
+	}
+
+	public void setHeaders(String headers) {
+		this.headers = headers;
+	}
+
+	@Override
+	public String toString() {
+		return "SimilarityParameters [ldDatasetMain=" + ldDatasetMain + ", resources=" + resources + ", uri=" + uri
+				+ ", json=" + json + ", method=" + method + ", headers=" + headers + ", options=" + options + "]";
 	}
 	
 	
