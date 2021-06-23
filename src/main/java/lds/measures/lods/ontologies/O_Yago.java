@@ -11,7 +11,7 @@ import lds.LdManager.ontologies.YagoLdManager;
 import lds.config.Config;
 import lds.config.ConfigParam;
 import lds.resource.R;
-import sc.research.ldq.LdDataset;
+import ldq.LdDataset;
 
 /**
  *
@@ -78,6 +78,26 @@ public class O_Yago implements O{
           
         return ontology.toString().equals("Yago");
         
+    }
+
+//    @Override
+//    public List<String> getCategories(R r) {
+//        return yagoldManager.getCategories(r , namespaces , dataAugmentation); 
+//    }
+    
+    @Override
+    public List<String> getCategories(R r) {
+        return yagoldManager.getCategories(r); 
+    }
+    
+    @Override
+    public List<String> getBroaderCategories(R r , int level) {
+       throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    @Override
+    public List<String> getNarrowerCategories(R r , int level) {
+       throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
       

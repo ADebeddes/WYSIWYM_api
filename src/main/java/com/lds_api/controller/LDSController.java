@@ -30,6 +30,7 @@ public class LDSController {
 	@ResponseBody
 	public SimilarityResult similarity(@RequestBody SimilarityParameters params) throws Exception{
 		System.out.println("Bonjour je suis le début du test");
+		afficheParams(params);
 		SimilarityResult res = new SimilarityResult();
 		res = LDSService.LDSimilarity(params);
 		try {

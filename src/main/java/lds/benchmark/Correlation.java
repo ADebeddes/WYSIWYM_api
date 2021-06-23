@@ -5,7 +5,6 @@
  */
 package lds.benchmark;
 import java.util.List;
-
 import org.apache.commons.math3.stat.correlation.*;
 
 /**

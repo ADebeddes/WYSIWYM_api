@@ -1,8 +1,6 @@
 package com.lds_api.service;
 
 import lombok.Data;
-import sc.research.ldq.LdDataset;
-import sc.research.ldq.LdDatasetFactory;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -21,6 +19,8 @@ import com.lds_api.model.SimilarityParameters;
 import com.lds_api.model.SimilarityResult;
 
 import au.com.bytecode.opencsv.CSVWriter;
+import ldq.LdDataset;
+import ldq.LdDatasetFactory;
 
 import com.lds_api.model.LdDatasetMain;
 import com.lds_api.model.Resources;

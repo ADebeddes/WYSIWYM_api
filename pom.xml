@@ -66,9 +66,9 @@
 			<artifactId>ldq</artifactId>
 			<version>0.0.1</version>
 			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/ldq-0.0.1.jar</systemPath>
+			<systemPath>${project.basedir}\lib\ldq-0.0.1.jar</systemPath>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.github.sharispe</groupId>
 			<artifactId>slib-sml</artifactId>
@@ -89,6 +89,24 @@
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-annotations</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>eu.wdaqua</groupId>
+			<artifactId>hdt-api</artifactId>
+			<version>2.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>eu.wdaqua</groupId>
+			<artifactId>hdt-jena</artifactId>
+			<version>2.0</version>
+			<type>jar</type>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.jena</groupId>
+			<artifactId>jena-tdb</artifactId>
+			<version>3.7.0</version>
 		</dependency>
 	</dependencies>
 

@@ -11,10 +11,10 @@ import ldq.LdDataset;
  *
  * @author Fouad Komeiha
  */
-public class LdsdLdManager extends DistanceMeasuresLdManager {
+public class SimCLdManager extends LodsLdManager{
     
-    public LdsdLdManager(LdDataset dataset, Boolean useIndexes) {
-        super(dataset , useIndexes);
+    public SimCLdManager(LdDataset dataset, boolean useIndex) {
+        super(dataset, useIndex);
     }
     
 }
