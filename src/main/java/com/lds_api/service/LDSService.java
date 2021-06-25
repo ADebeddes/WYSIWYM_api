@@ -15,13 +15,12 @@ import org.apache.jena.shared.PrefixMapping;
 import org.apache.jena.shared.impl.PrefixMappingImpl;
 import org.springframework.stereotype.Service;
 
-import com.lds_api.model.SimilarityParameters;
-import com.lds_api.model.SimilarityResult;
-
 import au.com.bytecode.opencsv.CSVWriter;
 import ldq.LdDataset;
 import ldq.LdDatasetFactory;
 
+import com.lds_api.model.SimilarityParameters;
+import com.lds_api.model.SimilarityResult;
 import com.lds_api.model.LdDatasetMain;
 import com.lds_api.model.Resources;
 import com.lds_api.model.Result;
@@ -91,10 +90,18 @@ public class LDSService {
 				String line;
 
 				while ((line = reader.readLine()) != null) {
-					String[] r = line.split(",");
 					Result res = new Result();
-					res.setResource1(r[0]);
-					res.setResource2(r[1]);
+					
+					String[] r = line.split(",");
+					
+					String[] r1 =r[0].split(params.getLdDatasetMain().getBaseResourceURL());
+					r1 = r1[1].split("\"");
+					
+					String[] r2 =r[1].split(params.getLdDatasetMain().getBaseResourceURL());
+					r2 = r2[1].split("\"");
+					
+					res.setResource1(r1[0]);
+					res.setResource2(r2[0]);
 					res.setScore(Double.parseDouble(r[2]));
 					data.add(res);
 				}
@@ -133,7 +140,7 @@ public class LDSService {
 					benchStringPath = benchPath.toAbsolutePath().toString()+"/src/test/resources/benchmarks/wordsim-353/wordsim-353_DBpedia.txt";
 					break;
 				}
-
+				//System.out.println(benchStringPath);
 				BenchmarkFile source = new BenchmarkFile(benchStringPath , ',' , '"');
 
 				LdBenchmark benchmark = new LdBenchmark(source);
@@ -164,10 +171,18 @@ public class LDSService {
 				String line;
 
 				while ((line = reader.readLine()) != null) {
-					String[] r = line.split(",");
 					Result res = new Result();
-					res.setResource1(r[0]);
-					res.setResource2(r[1]);
+					
+					String[] r = line.split(",");
+					
+					String[] r1 =r[0].split(params.getLdDatasetMain().getBaseResourceURL());
+					r1 = r1[1].split("\"");
+					
+					String[] r2 =r[1].split(params.getLdDatasetMain().getBaseResourceURL());
+					r2 = r2[1].split("\"");
+					
+					res.setResource1(r1[0]);
+					res.setResource2(r2[0]);
 					res.setScore(Double.parseDouble(r[2]));
 					data.add(res);
 				}
@@ -205,12 +220,11 @@ public class LDSService {
 			for(Resources r: params.getResources()) {
 				String sR1 = params.getLdDatasetMain().getBaseResourceURL()+r.getResource1();
 				String sR2 = params.getLdDatasetMain().getBaseResourceURL()+r.getResource2();
-
 				R r1 = new R(sR1);
 				R r2 = new R(sR2);
-
+				//System.out.println("similarity start");
 				double score = engine.similarity(r1, r2);
-
+				//System.out.println("similarity end");
 				Result res = new Result();
 				res.setResource1(r.getResource1());
 				res.setResource2(r.getResource2());

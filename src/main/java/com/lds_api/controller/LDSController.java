@@ -1,9 +1,6 @@
 package com.lds_api.controller;
 
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,9 +29,9 @@ public class LDSController {
 	@PostMapping(value = "/similarity", consumes = "application/json", produces = "application/json")
 	@ResponseBody
 	public SimilarityResult similarity(@RequestBody SimilarityParameters params) throws Exception{
-		System.out.println("Bonjour je suis le début du test");
+		/*System.out.println("Bonjour je suis le début du test");
 		System.out.println(params.toString());
-		afficheParams(params);
+		afficheParams(params);*/
 		SimilarityResult res = new SimilarityResult();
 		res = LDSService.LDSimilarity(params);
 		try {
