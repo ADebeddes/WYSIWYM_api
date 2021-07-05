@@ -53,7 +53,7 @@ public class LDSController {
 		return res;
 	}
 	
-	@PostMapping(value = "/microMeasure",produces ="application/json")
+	@PostMapping(value = "/microMeasure", consumes = "application/json",produces ="application/json")
 	@ResponseBody
 	public SimilarityResult microMeasure(@RequestBody MicroMeasureParameters params) throws Exception{
 		SimilarityResult res = new SimilarityResult();
