@@ -58,7 +58,7 @@ public class LDSController {
 	public SimilarityResult microMeasure(@RequestBody MicroMeasureParameters params) throws Exception{
 		SimilarityResult res = new SimilarityResult();
 		try {
-			res=LDSService.newMeasure(params);
+			res = LDSService.newMeasure(params);
 			res.setStatus("success");
 			res.setCode(HttpStatus.OK);
 		} 
