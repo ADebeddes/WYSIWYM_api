@@ -137,7 +137,6 @@ public class Ontology {
 //        if(! uri.endsWith("/") || ! uri.endsWith("#")){
 //               return uri;         
 //        }
-                    
         String prefix = prefixIndex.getValue(uri);
         
         if(prefix != null && prefix.contains(":") ){            

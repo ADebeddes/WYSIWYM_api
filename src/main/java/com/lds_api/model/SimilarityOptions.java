@@ -5,7 +5,7 @@ package com.lds_api.model;
  * @author Alexandre DEBEDDES
  *
  */
-public class Options {
+public class SimilarityOptions {
 	private boolean benchmark;
 	private String benchmarkName;
 	private String correlationType;
@@ -13,7 +13,7 @@ public class Options {
 	private boolean useIndex;
 	private String measureType;
 	
-	public Options() {}
+	public SimilarityOptions() {}
 
 	public boolean isBenchmark() {
 		return benchmark;

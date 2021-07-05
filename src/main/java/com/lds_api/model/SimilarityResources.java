@@ -5,12 +5,12 @@ package com.lds_api.model;
  * @author Alexandre DEBEDDES
  *
  */
-public class Resources {
+public class SimilarityResources {
 	private String resource1;
 	private String resource2;
 	private double benchmark;
 	
-	public Resources() {}
+	public SimilarityResources() {}
 
 	public String getResource1() {
 		return resource1;
