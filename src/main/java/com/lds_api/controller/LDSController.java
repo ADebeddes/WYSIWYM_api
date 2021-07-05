@@ -54,11 +54,18 @@ public class LDSController {
 	}
 	
 	@PostMapping(value = "/microMeasure",produces ="application/json")
+	@ResponseBody
 	public SimilarityResult microMeasure(@RequestBody MicroMeasureParameters params) throws Exception{
 		SimilarityResult res = new SimilarityResult();
-		res=LDSService.newMeasure(params);
-		res.setStatus("success");
-		res.setCode(HttpStatus.OK);
+		try {
+			res=LDSService.newMeasure(params);
+			res.setStatus("success");
+			res.setCode(HttpStatus.OK);
+		} 
+		catch (Exception e) {
+			res.setStatus("error");
+			res.setMessage("An error has occured : " + e.getMessage());
+		}
 		return res;
 	}
 	
