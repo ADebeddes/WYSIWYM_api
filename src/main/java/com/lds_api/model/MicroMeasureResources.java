@@ -15,7 +15,6 @@ public class MicroMeasureResources {
 	}
 
 	public void setResource1(String resource1) {
-		System.out.println(resource1);
 		this.resource1 = resource1;
 	}
 
@@ -24,7 +23,6 @@ public class MicroMeasureResources {
 	}
 
 	public void setResource2(String resource2) {
-		System.out.println(resource2);
 		this.resource2 = resource2;
 	}
 
@@ -33,7 +31,6 @@ public class MicroMeasureResources {
 	}
 
 	public void setProperty(String property) {
-		System.out.println(property);
 		this.property = property;
 	}
 	

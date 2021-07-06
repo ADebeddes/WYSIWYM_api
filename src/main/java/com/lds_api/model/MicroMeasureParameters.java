@@ -17,7 +17,6 @@ public class MicroMeasureParameters {
 	}
 	
 	public void setLdDatasetMain(LdDatasetMain ldDatasetMain) {
-		System.out.println(ldDatasetMain.toString());
 		this.ldDatasetMain = ldDatasetMain;
 	}
 	
@@ -26,7 +25,6 @@ public class MicroMeasureParameters {
 	}
 
 	public void setResources(List<MicroMeasureResources> microMeasureResources) {
-		System.out.println(microMeasureResources.toString());
 		this.microMeasureResources = microMeasureResources;
 	}
 	
@@ -35,7 +33,6 @@ public class MicroMeasureParameters {
 	}
 
 	public void setProperty(MicroMeasureOptions options) {
-		System.out.println(options.toString());
 		this.options = options;
 	}
 	

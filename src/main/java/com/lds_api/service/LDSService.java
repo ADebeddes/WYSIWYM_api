@@ -97,17 +97,26 @@ public class LDSService {
 
 			edges1 = (ArrayList<String>) getProperty(r1,dataSetMain,params.getResources().get(0).getProperty());
 			edges2 = (ArrayList<String>) getProperty(r2,dataSetMain,params.getResources().get(0).getProperty());
-
-			double score = 0.0;
-			if(params.getOptions().getMeasureType().equals("int")) {
-				String[] tab1 = edges1.get(0).split("\"");
-				String[] tab2 = edges2.get(0).split("\"");
-				score = IntMeasure(Double.parseDouble(tab1[1]),Double.parseDouble(tab2[1]),params.getOptions().getMeasureType());
-			}
-			else {
-				score = StringMeasure(edges1.get(0),edges2.get(0),params.getOptions().getMeasureType());
+			
+			if(edges1 == null || edges2 == null) {
+				simRes.setMessage("Unknown property");
+				return simRes;
 			}
 			
+			double score = 0.0;
+			
+			if(edges1.size() == 1 && edges2.size() == 1) {
+				if(params.getOptions().getMeasureType().equals("int")) {
+					String[] tab1 = edges1.get(0).split("\"");
+					String[] tab2 = edges2.get(0).split("\"");
+					score = IntMeasure(Double.parseDouble(tab1[1]),Double.parseDouble(tab2[1]),params.getOptions().getMeasureType());
+				}
+				else {
+					score = StringMeasure(edges1.get(0),edges2.get(0),params.getOptions().getMeasureType());
+				}
+			}
+			else 
+				score = ListMeasure(edges1,edges2,params.getOptions().getMeasureType());
 			Result res = new Result();
 			res.setResource1(r.getResource1());
 			res.setResource2(r.getResource2());
@@ -118,6 +127,7 @@ public class LDSService {
 		simRes.setData(data);
 		return simRes;
 	}
+	
 	public SimilarityResult LDSimilarity(SimilarityParameters params) throws Exception{
 		SimilarityResult simRes = new SimilarityResult();
 		ArrayList<Result> data = new ArrayList<Result>();
@@ -407,12 +417,14 @@ public class LDSService {
 	}
 
 	public List<String> getProperty(R a, LdDataset dataSetMain, String request) {
-		List<String> property = new ArrayList<String>();
+		List<String> propertyList = new ArrayList<String>();
+		
+		String object , property;
 
 		ParameterizedSparqlString query_cmd = dataSetMain.prepareQuery();
 
 		query_cmd.setCommandText("select ?"+request+"\n"
-				+ "from <http://dbpedia.org> \n"
+				+ "from <" + dataSetMain.getDefaultGraph()+ "> \n"
 				+ "where {<" + a.getUri() + "> <http://dbpedia.org/ontology/"+ request +"> ?"+request+" .}");
 
 		ResultSet resultSet = dataSetMain.executeSelectQuery(query_cmd.toString());
@@ -421,18 +433,35 @@ public class LDSService {
 			QuerySolution qs = resultSet.nextSolution();
 			if(request.equals("abstract")) {
 				if(qs.toString().contains("@en"))
-					property.add(qs.toString());
+					propertyList.add(qs.toString());
 			}
 			else {
-				property.add(qs.toString());
+				propertyList.add(qs.toString());
 			}
 		}
 		dataSetMain.close();
 
-		if(! property.isEmpty())
-			return property;
-		else
-			return null;
+		if(! propertyList.isEmpty())
+			return propertyList;
+		else {
+			query_cmd.setCommandText("select distinct ?object ?property " + (dataSetMain.getDefaultGraph() == null ? ("") : "from <" + dataSetMain.getDefaultGraph()+ ">") + " where {<" + a.getUri() + "> ?property ?object ."
+	                + " filter(isuri(?object)) }");
+
+
+	        ResultSet resultSet1 = dataSetMain.executeSelectQuery(query_cmd.toString());
+
+	        while (resultSet1.hasNext()) {
+	        	QuerySolution qs = resultSet1.nextSolution();
+	            object = Ontology.compressValue(qs.getResource("object"));
+	            property = Ontology.compressValue(qs.getResource("property"));
+	            if(property.contains(request))
+	            	propertyList.add(object);
+			}
+	        if(! propertyList.isEmpty())
+				return propertyList;
+			else
+				return null;
+		}
 	} 
 
 	public double StringMeasure(String r1,String r2,String measure) {
@@ -488,6 +517,28 @@ public class LDSService {
 			score = (r2 - r1) / r2 * 100;
 		else 
 			score = (r1 - r2) / r1 * 100;
+		return score/100;
+	}
+	
+	private double ListMeasure(List<String> r1,List<String> r2,String measure) {
+		boolean isIn = false;
+		double match = 0;
+		double mismatch = 0;
+		for(String s1: r1) {
+			
+			for(String s2: r2) {
+				if(s1.equals(s2)) {
+					match++;
+					isIn = true;
+				}
+			}
+			if(!isIn) 
+				mismatch++;
+			else 
+				isIn = false;
+		}
+
+		double score = match * 100 / (match+mismatch+((double)r2.size()-match));
 		return score/100;
 	}
 }

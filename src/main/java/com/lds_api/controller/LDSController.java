@@ -59,10 +59,16 @@ public class LDSController {
 		SimilarityResult res = new SimilarityResult();
 		try {
 			res = LDSService.newMeasure(params);
-			res.setStatus("success");
-			res.setCode(HttpStatus.OK);
+			if(res.getMessage()!=null) {
+				res.setStatus("error");
+			}
+			else {
+				res.setStatus("success");
+				res.setCode(HttpStatus.OK);
+			}
 		} 
 		catch (Exception e) {
+			res = new SimilarityResult();
 			res.setStatus("error");
 			res.setMessage("An error has occured : " + e.getMessage());
 		}

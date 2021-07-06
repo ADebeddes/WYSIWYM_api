@@ -21,7 +21,7 @@ public class LDSControllerTest {
     public void testMicroMeasure() throws Exception {
     	System.out.println("test5");
     	JSONObject jo = new JSONObject(
-    			"{\"ldDatasetMain\" :{\"name\": \"DBPedia_en\",\"prefixes\":{ \"nsPrefixMap\":{\"xsd\":\"http://www.w3.org/2001/XMLSchema#\",\"rdfs\":\"http://www.w3.org/2000/01/rdf-schema#\",\"dbpedia\":\"http://dbpedia.org/resource/\",\"dbpediaowl\":\"http://dbpedia.org/ontology/\",\"rdf\":\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\"}},\"link\":\"http://dbpedia.org/sparql\",\"defaultGraph\" : \"http://dbpedia.org\",\"baseResourceURL\" : \"http://dbpedia.org/resource/\"},\"resources\" : [ { \"resource1\": \"Madrid\", \"resource2\" : \"Paris\",\"property\" : \"abstract\"}],\"options\":{\"weight\" :0.5,\"measureType\":\"Levenshtein\"}}"
+    			"{\"ldDatasetMain\" :{\"name\": \"DBPedia_en\",\"prefixes\":{ \"nsPrefixMap\":{\"xsd\":\"http://www.w3.org/2001/XMLSchema#\",\"rdfs\":\"http://www.w3.org/2000/01/rdf-schema#\",\"dbpedia\":\"http://dbpedia.org/resource/\",\"dbpediaowl\":\"http://dbpedia.org/ontology/\",\"rdf\":\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\"}},\"link\":\"http://dbpedia.org/sparql\",\"defaultGraph\" : \"http://dbpedia.org\",\"baseResourceURL\" : \"http://dbpedia.org/resource/\"},\"resources\" : [ { \"resource1\": \"Madrid\", \"resource2\" : \"Paris\",\"property\" : \"wikiPageUsesTemplate\"}],\"options\":{\"weight\" :0.5,\"measureType\":\"Levenshtein\"}}"
     			);
     	mockMvc.perform(post("/microMeasure")
     			  .contentType("application/json;charset=UTF-8")

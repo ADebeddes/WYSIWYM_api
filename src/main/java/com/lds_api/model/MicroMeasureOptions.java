@@ -14,7 +14,6 @@ public class MicroMeasureOptions {
 	}
 
 	public void setWeight(double weight) {
-		System.out.println(weight);
 		this.weight = weight;
 	}
 
@@ -23,7 +22,6 @@ public class MicroMeasureOptions {
 	}
 
 	public void setMeasureType(String measureType) {
-		System.out.println(measureType);
 		this.measureType = measureType;
 	}
 	
