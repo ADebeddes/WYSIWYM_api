@@ -106,7 +106,7 @@ public class LDSService {
 			double score = 0.0;
 			
 			if(edges1.size() == 1 && edges2.size() == 1) {
-				if(params.getOptions().getMeasureType().equals("int")) {
+				if(params.getOptions().getMeasureType().equals("numeric")) {
 					String[] tab1 = edges1.get(0).split("\"");
 					String[] tab2 = edges2.get(0).split("\"");
 					score = IntMeasure(Double.parseDouble(tab1[1]),Double.parseDouble(tab2[1]),params.getOptions().getMeasureType());

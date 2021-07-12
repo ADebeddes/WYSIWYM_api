@@ -9,7 +9,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.lds_api.configurations.ApplicationPropertiesConfiguration;
+import com.lds_api.model.MeasuresResult;
 import com.lds_api.model.MicroMeasureParameters;
+import com.lds_api.model.MicroMeasures;
 import com.lds_api.model.SimilarityParameters;
 import com.lds_api.model.SimilarityResult;
 import com.lds_api.service.LDSService;
@@ -27,11 +30,13 @@ public class LDSController {
 	@Autowired
     private LDSService LDSService;
 	
+	/*@Autowired
+    ApplicationPropertiesConfiguration appProperties;*/
+	
 	@PostMapping(value = "/similarity", consumes = "application/json", produces = "application/json")
 	@ResponseBody
 	public SimilarityResult similarity(@RequestBody SimilarityParameters params) throws Exception{
 		SimilarityResult res = new SimilarityResult();
-		//res = LDSService.LDSimilarity(params);
 		try {
 			res = LDSService.LDSimilarity(params);
 			res.setStatus("success");
@@ -44,11 +49,26 @@ public class LDSController {
 		return res;
 	}
 	
-	@PostMapping(value = "/measures",produces ="application/json")
-	public ArrayList<String> getMeasures() throws Exception{
-		ArrayList<String> res = new ArrayList<String>();
+	@PostMapping(value = "/getMeasures",produces ="application/json")
+	public ArrayList<MeasuresResult> getMeasures() throws Exception{
+		ArrayList<MeasuresResult> res = new ArrayList<MeasuresResult>();
 		for (Measure measure : Measure.values()) {
-		    res.add(measure.toString());
+			MeasuresResult m = new MeasuresResult();
+			m.setName(Measure.getName(measure));
+			m.setAttribute(Measure.getName(measure));
+		    res.add(m);
+		}
+		return res;
+	}
+	
+	@PostMapping(value = "/getMicroMeasures",produces ="application/json")
+	public ArrayList<MeasuresResult> getMicroMeasures() throws Exception{
+		ArrayList<MeasuresResult> res = new ArrayList<MeasuresResult>();
+		for (MicroMeasures measure : MicroMeasures.values()) {
+			MeasuresResult m = new MeasuresResult();
+			m.setAttribute(MicroMeasures.getName(measure));
+			m.setName(MicroMeasures.getPath(measure));
+		    res.add(m);
 		}
 		return res;
 	}

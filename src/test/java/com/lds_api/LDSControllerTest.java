@@ -98,7 +98,7 @@ public class LDSControllerTest {
     @Test
     public void testGetMeasures() throws Exception {
     	System.out.println("test6");
-    	mockMvc.perform(post("/measures")
+    	mockMvc.perform(post("/getMeasures")
     			  .contentType("application/json;charset=UTF-8"))
     		      .andExpect(MockMvcResultMatchers.status().isOk());
     }
