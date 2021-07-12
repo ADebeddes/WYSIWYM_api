@@ -68,6 +68,7 @@ public class LDSController {
 			MeasuresResult m = new MeasuresResult();
 			m.setAttribute(MicroMeasures.getName(measure));
 			m.setName(MicroMeasures.getPath(measure));
+			m.setDescription(MicroMeasures.getDescription(measure));
 		    res.add(m);
 		}
 		return res;
